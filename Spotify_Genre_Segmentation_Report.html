@@ -1,0 +1,139 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Spotify Genre Segmentation</title><style>body{font-family:Arial,sans-serif;max-width:1120px;margin:36px auto;color:#172033;padding:0 22px;background:#f7f8fc}h1{font-size:38px;margin-bottom:4px}h2{margin-top:44px}.sub{color:#64748b}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:28px 0}.cards div{background:#fff;padding:20px;border-radius:12px;box-shadow:0 1px 4px #dfe3ee}.cards b{font-size:28px;color:#4f46e5;display:block}.cards span{color:#64748b;font-size:13px}figure{background:white;padding:18px;border-radius:12px;margin:25px 0;box-shadow:0 1px 4px #dfe3ee}img{width:100%;height:auto}figcaption{color:#64748b;margin:8px 4px 0;font-size:14px}.table{width:100%;border-collapse:collapse;background:#fff}.table th{background:#312e81;color:white}.table th,.table td{padding:9px;border:1px solid #e5e7eb;text-align:left}.table tr:nth-child(even){background:#f8fafc}code{background:#e9e9ff;padding:2px 5px;border-radius:4px}</style></head><body><h1>Spotify Songs' Genre Segmentation</h1><p class='sub'>Automated clustering project built from 32,833 source records</p>
+<div class='cards'><div><b>28,356</b><span>unique tracks analysed</span></div><div><b>6</b><span>playlist genres</span></div><div><b>448</b><span>playlist names</span></div><div><b>2</b><span>selected clusters</span></div></div>
+<h2>Executive findings</h2><ul><li>4,477 duplicate track IDs were removed; missing descriptive fields were labeled <em>Unknown</em>.</li><li>The selected K-Means model uses <b>k=2</b>, the highest sampled silhouette score among k=2–7 (0.170).</li><li>Clusters represent audio-character similarity, while playlist genre and name show how Spotify’s editorial labels overlap those sounds.</li><li>Recommendation candidates are nearest songs in standardized audio-feature space within the same cluster.</li></ul>
+<h2>Workflow</h2><p>Source CSV → remove duplicate tracks and fill labels → standardize ten audio features → test K-Means k=2–7 → select k by silhouette score → profile clusters and find nearby songs.</p>
+<h2>Plots and analysis</h2><figure><img src="figures/01_genre_counts.svg"/><figcaption>Genre representation</figcaption></figure><figure><img src="figures/02_genre_popularity.svg"/><figcaption>Popularity by genre</figcaption></figure><figure><img src="figures/03_genre_audio_profile.svg"/><figcaption>Average audio profile by genre</figcaption></figure><figure><img src="figures/04_correlation_matrix.svg"/><figcaption>Feature correlation matrix</figcaption></figure><figure><img src="figures/05_clusters_pca.svg"/><figcaption>Two-dimensional cluster projection</figcaption></figure><figure><img src="figures/06_cluster_genre_mix.svg"/><figcaption>Genre composition of clusters</figcaption></figure><figure><img src="figures/07_top_playlists.svg"/><figcaption>Playlist-name analysis</figcaption></figure><figure><img src="figures/08_silhouette_scores.svg"/><figcaption>Model selection result</figcaption></figure>
+<h2>Cluster profiles</h2><table border="1" class="dataframe table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>cluster</th>
+      <th>tracks</th>
+      <th>popularity</th>
+      <th>danceability</th>
+      <th>energy</th>
+      <th>acousticness</th>
+      <th>valence</th>
+      <th>tempo</th>
+      <th>dominant_genre</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>8350</td>
+      <td>40.525</td>
+      <td>0.658</td>
+      <td>0.488</td>
+      <td>0.378</td>
+      <td>0.457</td>
+      <td>113.565</td>
+      <td>r&amp;b</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>20006</td>
+      <td>38.831</td>
+      <td>0.652</td>
+      <td>0.786</td>
+      <td>0.093</td>
+      <td>0.533</td>
+      <td>124.041</td>
+      <td>edm</td>
+    </tr>
+  </tbody>
+</table>
+<h2>Example recommendations</h2><table border="1" class="dataframe table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>cluster</th>
+      <th>rank</th>
+      <th>track_name</th>
+      <th>artist</th>
+      <th>genre</th>
+      <th>popularity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>Cruise - From "Fifty Shades Darker (Original Motion Picture Soundtrack)"</td>
+      <td>Kygo</td>
+      <td>latin</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>2</td>
+      <td>Wild Girl</td>
+      <td>Kito</td>
+      <td>pop</td>
+      <td>60</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>3</td>
+      <td>Anos Luz</td>
+      <td>Matuê</td>
+      <td>rap</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>4</td>
+      <td>Espiritual</td>
+      <td>Pachará</td>
+      <td>latin</td>
+      <td>39</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>5</td>
+      <td>I'm So Glad</td>
+      <td>Jamie Jones</td>
+      <td>r&amp;b</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+      <td>Always On My Mind - Nihil Young Remix</td>
+      <td>Mike Mago</td>
+      <td>edm</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>American Boy - Brooks Remix</td>
+      <td>Estelle</td>
+      <td>pop</td>
+      <td>56</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>3</td>
+      <td>Lying Is the Most Fun a Girl Can Have Without Taking Her Clothes Off</td>
+      <td>Panic! At The Disco</td>
+      <td>rock</td>
+      <td>63</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>4</td>
+      <td>Home Tonight</td>
+      <td>Quentyn</td>
+      <td>pop</td>
+      <td>36</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>5</td>
+      <td>Party Rock Anthem</td>
+      <td>LMFAO</td>
+      <td>pop</td>
+      <td>24</td>
+    </tr>
+  </tbody>
+</table>
+<h2>How to reproduce</h2><p>Open <code>Spotify_Genre_Segmentation.ipynb</code>, place the dataset in the same directory, install packages from <code>requirements.txt</code>, and run all cells. The notebook includes a reusable <code>recommend()</code> function.</p></body></html>
